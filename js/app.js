@@ -3,6 +3,7 @@
 let sections = document.querySelectorAll("section");
 const nav = document.getElementById("navbar__list");
 let navbar__items = nav.getElementsByTagName("li");
+let anchors= document.getElementsByTagName("a")
 let id = "section1";
 
 //creating a fragment of navbar list
@@ -39,12 +40,22 @@ function addActiveClass() {
     .querySelector(`${this.getElementsByTagName("a")[0].getAttribute("href")}`)
     .classList.add("your-active-class");
 }
+//adding scrollIntoView
+for(let anchor of anchors){
+  anchor.addEventListener("click", smoothScroll)
+}
+function smoothScroll(e){
+  e.preventDefault()
+  let id= e.target.getAttribute("href")
+  document.querySelector(id).scrollIntoView({ 
+    behavior: 'smooth' 
+  })
+}
 
 //changing which section is highlighted when scrolling and the corresponding
 //nav anchor as well
 document.addEventListener("scroll", function (e) {
   // let ids=[];
-
   for (let section of sections) {
     if (elementInViewport2(section)) {
       //there could be more than one section in viewport, so we push the id to the array
@@ -76,9 +87,9 @@ document.addEventListener("scroll", function (e) {
 
 //function to check if the element passed to it is in viewport or not
 function elementInViewport2(el) {
-  var sectionTop = el.getBoundingClientRect().top;
-  var sectionBottom = el.getBoundingClientRect().bottom;
-  if (sectionTop <= 60 && sectionBottom  >60) {
+  let sectionTop = el.getBoundingClientRect().top;
+  let sectionBottom = el.getBoundingClientRect().bottom;
+  if (sectionTop <= 60 && sectionBottom > 60) {
     return true;
   } else {
     return false;
